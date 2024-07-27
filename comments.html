@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Page</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* Body styling */
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg, 
+                rgba(30, 144, 255, 0.9) 0%, 
+                rgba(0, 191, 255, 0.9) 40%, 
+                rgba(0, 255, 255, 0.8) 70%, 
+                rgba(0, 191, 255, 0.7) 100%
+            );
+        }
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7);
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+        .sidebar.visible {
+            transform: translateX(0);
+        }
+        .sidebar a {
+            display: block;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .sidebar img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        .sidebar-note {
+            position: absolute;
+            bottom: 20px;
+            left: 10px;
+            right: 10px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #fff;
+        }
+        /* Main toggle button styling */
+        .main-toggle-btn {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 20px;
+            left: 15px;
+            z-index: 2;
+        }
+        .main-toggle-btn:hover {
+            background-color: rgba(0, 0, 0, 1);
+        }
+        /* Comment form styling */
+        .comment-form {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .comment-form h2 {
+            margin-bottom: 20px;
+            color: #000;
+            text-align: center;
+        }
+        .comment-form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        .comment-form input, .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .comment-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        .comment-form button:hover {
+            background-color: rgba(0, 0, 0, 1);
+        }
+        /* Thank You Message */
+        .thank-you-message {
+            display: none;
+            position: absolute;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 1;
+        }
+        .thank-you-message h2 {
+            margin-bottom: 10px;
+            color: #000;
+        }
+        .thank-you-message p {
+            color: #000;
+            font-size: 1.2em;
+        }
+        /* Back Button Styling */
+        .back-btn {
+            width: 120px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        .back-btn:hover {
+            background-color: rgba(0, 0, 0, 1);
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding-top: 50px;
+            }
+            .sidebar img {
+                width: 30px;
+                height: 30px;
+            }
+            .main-toggle-btn {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                left: 10px;
+            }
+            .comment-form, .thank-you-message {
+                width: 90%;
+                padding: 15px;
+            }
+            .back-btn {
+                width: 100px;
+                height: 35px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 50px;
+            }
+            .sidebar img {
+                width: 25px;
+                height: 25px;
+            }
+            .main-toggle-btn {
+                width: 35px;
+                height: 35px;
+                top: 5px;
+                left: 5px;
+            }
+            .comment-form, .thank-you-message {
+                width: 95%;
+                padding: 10px;
+            }
+            .back-btn {
+                width: 80px;
+                height: 30px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Toggle Button -->
+    <button class="main-toggle-btn" id="main-toggle-btn" aria-label="Toggle Sidebar">
+        &#9776; <!-- Hamburger icon to open/close the sidebar -->
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <!-- Social media icons -->
+        <a href="https://www.youtube.com/channel/UC21h6sGYGmMy0JOLO09Zcxw" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" alt="YouTube">
+        </a>
+        <a href="https://discord.gg/skV2F56gGa" target="_blank">
+            <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
+        </a>
+        <a href="https://twitter.com" target="_blank">
+            <img src="https://static.vecteezy.com/system/resources/previews/027/395/710/non_2x/twitter-brand-new-logo-3-d-with-new-x-shaped-graphic-of-the-world-s-most-popular-social-media-free-png.png" alt="Twitter">
+        </a>
+        <div class="sidebar-note">
+            <p>All messages are stored and sent to our Discord server.</p>
+        </div>
+    </div>
+
+    <!-- Comment Form -->
+    <div class="comment-form" id="comment-form">
+        <h2>Leave a Comment</h2>
+        <form id="form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" rows="5" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="form-note">
+            <p>All messages are stored and sent to our Discord server even if you get failed message the message si still stored and sent.</p>
+        </div>
+    </div>
+
+    <!-- Thank You Message -->
+    <div class="thank-you-message" id="thank-you-message">
+        <!-- Content will be dynamically added by JavaScript -->
+    </div>
+
+    <!-- Back Button -->
+    <button class="back-btn" id="back-btn">Back</button>
+
+    <script>
+        // JavaScript to toggle sidebar visibility
+        document.getElementById('main-toggle-btn').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('visible');
+        });
+
+        // Optional: Close sidebar if clicked outside
+        document.addEventListener('click', function(event) {
+            var sidebar = document.getElementById('sidebar');
+            var mainToggleBtn = document.getElementById('main-toggle-btn');
+            if (!sidebar.contains(event.target) && !mainToggleBtn.contains(event.target)) {
+                sidebar.classList.remove('visible');
+            }
+        });
+
+        // JavaScript to handle form submission
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Get form data
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comment').value;
+
+            // Prepare payload for Discord webhook
+            const payload = {
+                username: 'Comment Bot',
+                avatar_url: 'https://example.com/avatar.png', // Optional: Change this to your avatar URL
+                content: `New message from ${name}:\n${comment}`
+            };
+
+            // Send POST request to Discord webhook
+            fetch('https://discord.com/api/webhooks/1266709697671725116/40NAjCVbImRnpbXrN-GaYbS5P6GvizeVtMiqUcVO1b5jo_ZyRxReZEXfpy4s8Mo9CRXD', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Hide the comment form
+                document.getElementById('comment-form').style.display = 'none';
+                // Show the thank you message
+                document.getElementById('thank-you-message').style.display = 'block';
+                document.getElementById('thank-you-message').innerHTML = '<h2>Thank You!</h2><p>Thank you for leaving a comment. You can see all the comments on our Discord server.</p>';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to submit comment. Please try again later.');
+            });
+        });
+
+        // JavaScript for Back button functionality
+        document.getElementById('back-btn').addEventListener('click', function() {
+            window.history.back(); // Go back to the previous page
+        });
+    </script>
+</body>
+</html>
