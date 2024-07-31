@@ -83,13 +83,14 @@
             width: 100%;
             text-align: center;
             padding: 20px;
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #FFFFFF;
             text-shadow:
                 2px 2px 0 #000,  
                 4px 4px 0 #000,
                 6px 6px 0 #000;
+            margin-top: 80px; /* Adjust top margin to prevent overlap with sidebar */
         }
         /* Projects Container */
         .projects-container {
@@ -106,16 +107,16 @@
             padding: 20px;
             margin: 10px 0;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            width: 80%;
+            width: 90%;
             max-width: 800px;
             color: #FFFFFF;
         }
         .project h2 {
-            font-size: 2em;
+            font-size: 1.8em;
             margin-bottom: 10px;
         }
         .project p {
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
         /* Back Button */
         .back-button {
@@ -134,6 +135,42 @@
         }
         .back-button:hover {
             background-color: rgba(0, 0, 0, 1);
+        }
+        /* Media Query for Mobile */
+        @media only screen and (max-width: 600px) {
+            .sidebar {
+                width: 60px;
+                padding-top: 40px;
+            }
+            .main-toggle-btn {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                left: 10px;
+            }
+            .page-title {
+                font-size: 2em;
+                margin-top: 60px; /* Adjust top margin for mobile view */
+            }
+            .projects-container {
+                margin: 10px; /* Adjust margin for smaller screens */
+            }
+            .project {
+                padding: 15px;
+                width: 100%; /* Full width for mobile */
+            }
+            .project h2 {
+                font-size: 1.5em;
+            }
+            .project p {
+                font-size: 1em;
+            }
+            .back-button {
+                font-size: 0.8em;
+                padding: 8px 16px;
+                bottom: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
