@@ -73,7 +73,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             position: fixed;
             top: 20px;
-            left: 15px;
+            left: 20px;
             z-index: 2;
         }
         .main-toggle-btn:hover {
@@ -81,7 +81,7 @@
         }
         /* Main text styling */
         .main-text {
-            font-size: 8em;
+            font-size: 6em;
             color: #FFFFFF;
             font-weight: bold;
             text-shadow:
@@ -92,7 +92,7 @@
                 0 0 10px rgba(0, 0, 0, 0.6),
                 0 0 15px rgba(0, 0, 0, 0.4);
             position: absolute;
-            top: 50px;
+            top: 40px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1;
@@ -102,24 +102,24 @@
         /* Main content container */
         .content {
             position: absolute;
-            top: 200px;
+            top: 160px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1;
-            max-width: 800px;
+            max-width: 90%;
             padding: 20px;
             text-align: center;
             color: #FFFFFF;
         }
         .content h1 {
-            font-size: 3em;
+            font-size: 2.5em;
             margin-bottom: 20px;
             text-shadow:
                 2px 2px 0 #000,  
                 4px 4px 0 #000;
         }
         .content p {
-            font-size: 1.2em;
+            font-size: 1.1em;
             line-height: 1.5;
             text-shadow:
                 2px 2px 0 #000,  
@@ -156,19 +156,20 @@
             .main-toggle-btn {
                 width: 40px;
                 height: 40px;
-                top: 10px;
-                left: 10px;
+                top: 15px;
+                left: 15px;
             }
             .main-text {
-                font-size: 5em;
+                font-size: 4em;
                 top: 20px;
             }
             .content {
-                top: 150px;
+                top: 130px;
+                max-width: 95%;
             }
             .back-button {
-                bottom: 10px;
-                right: 10px;
+                bottom: 15px;
+                right: 15px;
                 padding: 8px 15px;
             }
         }
@@ -176,6 +177,7 @@
         @media (max-width: 480px) {
             .sidebar {
                 width: 50px;
+                padding-top: 40px;
             }
             .sidebar img {
                 width: 25px;
@@ -184,19 +186,20 @@
             .main-toggle-btn {
                 width: 35px;
                 height: 35px;
-                top: 5px;
-                left: 5px;
+                top: 10px;
+                left: 10px;
             }
             .main-text {
                 font-size: 3em;
-                top: 5px;
+                top: 10px;
             }
             .content {
                 top: 100px;
+                max-width: 98%;
             }
             .back-button {
-                bottom: 5px;
-                right: 5px;
+                bottom: 10px;
+                right: 10px;
                 padding: 5px 10px;
             }
         }
