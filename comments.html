@@ -247,45 +247,28 @@
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
             <label for="comment">Comment:</label>
-            <textarea id="comment" name="comment" rows="5" required></textarea>
-            <button type="submit">Submit</button>
+            <textarea id="comment" name="comment" required></textarea>
+            <button type="submit">Submit Comment</button>
         </form>
-        <div class="form-note">
-            <p>All messages are stored and sent to our Discord server even if you get failed message the message si still stored and sent.</p>
-        </div>
     </div>
 
     <!-- Thank You Message -->
-    <div class="thank-you-message" id="thank-you-message">
-        <!-- Content will be dynamically added by JavaScript -->
-    </div>
+    <div class="thank-you-message" id="thank-you-message"></div>
 
     <!-- Back Button -->
     <button class="back-btn" id="back-btn">Back</button>
 
     <script>
-        // JavaScript to toggle sidebar visibility
-        document.getElementById('main-toggle-btn').addEventListener('click', function() {
-            var sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('visible');
-        });
-
-        // Optional: Close sidebar if clicked outside
-        document.addEventListener('click', function(event) {
-            var sidebar = document.getElementById('sidebar');
-            var mainToggleBtn = document.getElementById('main-toggle-btn');
-            if (!sidebar.contains(event.target) && !mainToggleBtn.contains(event.target)) {
-                sidebar.classList.remove('visible');
-            }
-        });
-
-        // JavaScript to handle form submission
         document.getElementById('form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
+            event.preventDefault();
 
             // Get form data
             const name = document.getElementById('name').value;
-            const comment = document.getElementById('comment').value;
+            let comment = document.getElementById('comment').value;
+
+            // Sanitize the comment
+            comment = comment.replace(/@everyone|@here/g, '[CENSORED]');
+            comment = comment.replace(/https?:\/\/[^\s]+/g, '[CENSORED]');
 
             // Prepare payload for Discord webhook
             const payload = {
@@ -310,9 +293,7 @@
             })
             .then(data => {
                 console.log('Success:', data);
-                // Hide the comment form
                 document.getElementById('comment-form').style.display = 'none';
-                // Show the thank you message
                 document.getElementById('thank-you-message').style.display = 'block';
                 document.getElementById('thank-you-message').innerHTML = '<h2>Thank You!</h2><p>Thank you for leaving a comment. You can see all the comments on our Discord server.</p>';
             })
@@ -322,9 +303,8 @@
             });
         });
 
-        // JavaScript for Back button functionality
-        document.getElementById('back-btn').addEventListener('click', function() {
-            window.history.back(); // Go back to the previous page
+        document.getElementById('main-toggle-btn').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('visible');
         });
     </script>
 </body>
